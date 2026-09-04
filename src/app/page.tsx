@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 
 export default function Home() {
   return (
@@ -8,23 +8,6 @@ export default function Home() {
       <div className="absolute top-[20%] right-[-10%] w-[40%] h-[40%] bg-purple-400 rounded-full mix-blend-multiply filter blur-[128px] opacity-70 animate-blob animation-delay-2000"></div>
       <div className="absolute bottom-[-20%] left-[20%] w-[40%] h-[40%] bg-indigo-400 rounded-full mix-blend-multiply filter blur-[128px] opacity-70 animate-blob animation-delay-4000"></div>
 
-      {/* Header */}
-      <header className="w-full z-10 px-6 py-8 md:px-12 md:py-10 flex flex-col sm:flex-row items-center justify-center gap-4 bg-white/30 backdrop-blur-md border-b border-white/20 shadow-sm">
-        <div className="flex items-center gap-4">
-          <div className="relative w-16 h-16 md:w-20 md:h-20 drop-shadow-md">
-            <Image 
-              src="/logo.png" 
-              alt="Inventive Engineering Solution Logo" 
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">
-            Inventive Engineering Solution
-          </h1>
-        </div>
-      </header>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col items-center justify-center z-10 p-6 text-center w-full max-w-4xl mx-auto">
