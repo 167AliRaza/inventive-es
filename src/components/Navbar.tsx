@@ -3,84 +3,77 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-const navLinks = [
-  { label: "Home", href: "#" },
-  { label: "About", href: "#" },
-  { label: "Services", href: "#" },
-  { label: "Contact", href: "#" },
-];
+import { usePathname } from "next/navigation";
+import { navLinks, siteConfig } from "@/data/site";
+import LayoutWrapper from "@/components/LayoutWrapper";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
-    <>
-      <nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-lg border-b border-slate-200/50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-20">
-          {/* Logo + Site Name */}
-          <Link href="/" className="flex items-center gap-3">
-            <div className="relative w-12 h-12 md:w-14 md:h-14">
-              <Image
-                src="/logo.png"
-                alt="Inventive Engineering Solution Logo"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-            <span className="text-lg md:text-xl font-bold text-[#1B3A5C] tracking-tight">
-              Inventive Engineering Solution
-            </span>
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <LayoutWrapper>
+        <nav className="flex h-20 items-center justify-between" aria-label="Main navigation">
+          <Link href="/" className="flex items-center gap-3" onClick={() => setIsOpen(false)}>
+            <Image src="/logo.png" alt={`${siteConfig.name} logo`} width={44} height={44} priority />
+            <span className="hidden text-sm font-semibold text-slate-800 sm:inline">{siteConfig.shortName}</span>
           </Link>
 
-          {/* Desktop Links */}
-          <ul className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <li key={link.label}>
-                <Link
-                  href={link.href}
-                  className="text-sm font-medium text-slate-600 hover:text-[#E87A1E] transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-[#E87A1E] after:transition-all hover:after:w-full"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Hamburger Button (mobile) */}
           <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
+            type="button"
+            className="inline-flex items-center rounded-md border border-slate-300 p-2 text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 md:hidden"
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
             aria-label={isOpen ? "Close menu" : "Open menu"}
+            onClick={() => setIsOpen((prev) => !prev)}
           >
-            <span className={`block w-6 h-0.5 bg-[#1B3A5C] transition-all duration-300 ${isOpen ? "rotate-45 translate-y-2" : ""}`} />
-            <span className={`block w-6 h-0.5 bg-[#1B3A5C] transition-all duration-300 ${isOpen ? "opacity-0" : ""}`} />
-            <span className={`block w-6 h-0.5 bg-[#1B3A5C] transition-all duration-300 ${isOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+            <span className="sr-only">Toggle menu</span>
+            <span className="text-lg leading-none">☰</span>
           </button>
-        </div>
-      </nav>
 
-      {/* Full-Screen Mobile Overlay */}
-      <div
-        className={`fixed inset-0 z-40 bg-white/95 backdrop-blur-xl flex flex-col items-center justify-center transition-all duration-500 ${
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-      >
-        <ul className="flex flex-col items-center gap-8">
-          {navLinks.map((link) => (
-            <li key={link.label}>
-              <Link
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="text-2xl font-semibold text-[#1B3A5C] hover:text-[#E87A1E] transition-colors"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+          <ul className="hidden items-center gap-1 md:flex">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={`rounded-md px-3 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 ${
+                      isActive ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </LayoutWrapper>
+
+      <div id="mobile-menu" className={`${isOpen ? "block" : "hidden"} border-t border-slate-200 bg-white md:hidden`}>
+        <LayoutWrapper className="py-3">
+          <ul className="space-y-1">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`block rounded-md px-3 py-2 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 ${
+                      isActive ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </LayoutWrapper>
       </div>
-    </>
+    </header>
   );
 }
