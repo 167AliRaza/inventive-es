@@ -1,25 +1,30 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-
-const inter = Inter({ subsets: ["latin"] });
+import Footer from "@/components/Footer";
+import { siteConfig } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Inventive Engineering Solution | Under Maintenance",
-  description: "Inventive Engineering Solution - We are currently under maintenance. Please check back later.",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name} | Industrial Electrical Solutions`,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
   openGraph: {
-    title: "Inventive Engineering Solution",
-    description: "Inventive Engineering Solution - We are currently under maintenance.",
-    url: "https://inventive-es.com",
-    siteName: "Inventive Engineering Solution",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
     locale: "en_US",
     type: "website",
+    images: [{ url: "/images/og-image.svg", width: 1200, height: 630, alt: siteConfig.name }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Inventive Engineering Solution",
-    description: "We are currently under maintenance.",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: ["/images/og-image.svg"],
   },
 };
 
@@ -30,9 +35,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Navbar />
-        {children}
+      <body className="bg-slate-50 text-slate-900">
+        <div className="flex min-h-screen flex-col">
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

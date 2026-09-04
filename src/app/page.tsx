@@ -1,46 +1,126 @@
+import Script from "next/script";
+import Link from "next/link";
+import Hero from "@/components/Hero";
+import LayoutWrapper from "@/components/LayoutWrapper";
+import ServiceCard from "@/components/ServiceCard";
+import ProductList from "@/components/ProductList";
+import ClientsCarousel from "@/components/ClientsCarousel";
+import CertificationsGrid from "@/components/CertificationsGrid";
+import Locations from "@/components/Locations";
+import { projects } from "@/data/projects";
+import { siteConfig } from "@/data/site";
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: siteConfig.name,
+  url: siteConfig.url,
+  logo: `${siteConfig.url}/logo.png`,
+  telephone: siteConfig.phone,
+  email: siteConfig.email,
+  address: siteConfig.addresses.map((address) => ({
+    "@type": "PostalAddress",
+    addressLocality: address.city,
+    streetAddress: `${address.line1}, ${address.line2}`,
+    addressCountry: "PK",
+  })),
+  sameAs: siteConfig.socialLinks.map((item) => item.href),
+};
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative flex flex-col items-center overflow-hidden bg-slate-50">
-      {/* Blurry Background Elements */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400 rounded-full mix-blend-multiply filter blur-[128px] opacity-70 animate-blob"></div>
-      <div className="absolute top-[20%] right-[-10%] w-[40%] h-[40%] bg-purple-400 rounded-full mix-blend-multiply filter blur-[128px] opacity-70 animate-blob animation-delay-2000"></div>
-      <div className="absolute bottom-[-20%] left-[20%] w-[40%] h-[40%] bg-indigo-400 rounded-full mix-blend-multiply filter blur-[128px] opacity-70 animate-blob animation-delay-4000"></div>
+    <>
+      <Script id="organization-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+      <Hero />
 
+      <section className="py-16">
+        <LayoutWrapper>
+          <h2 className="text-3xl font-bold text-slate-900">Electrical Solutions Portfolio</h2>
+          <p className="mt-3 max-w-2xl text-slate-600">Manufacturing-backed solutions designed for utilities, EPC contractors, and large-scale industrial users.</p>
+          <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <ServiceCard title="Packaged Substations" description="Turnkey, tested substation modules for fast site deployment." href="/products/packaged-substations" />
+            <ServiceCard title="MV Switchgear" description="Protection-oriented medium voltage systems for reliable operation." href="/products/mv-switchgear" />
+            <ServiceCard title="LV Panels" description="Scalable distribution and motor control panels for industrial loads." href="/products/lv-panels" />
+          </div>
+        </LayoutWrapper>
+      </section>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center z-10 p-6 text-center w-full max-w-4xl mx-auto">
-        <div className="bg-white/60 backdrop-blur-xl p-8 md:p-16 rounded-3xl shadow-xl border border-white/40 transform transition-all hover:scale-[1.02] duration-500">
-          <div className="mb-6 inline-flex items-center justify-center p-4 bg-amber-100 rounded-full">
-            <svg className="w-10 h-10 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            </svg>
+      <section className="bg-white py-16">
+        <LayoutWrapper>
+          <div className="mb-8 flex items-end justify-between">
+            <div>
+              <h2 className="text-3xl font-bold text-slate-900">Featured Products</h2>
+              <p className="mt-2 text-slate-600">Explore our flagship categories with compliance-focused designs.</p>
+            </div>
+            <Link href="/products" className="text-sm font-semibold text-amber-600 hover:text-amber-700">View all →</Link>
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
-            We are under maintenance
-          </h2>
-          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-8 leading-relaxed">
-            We are currently upgrading our platform to provide you with a better experience. We will be back online shortly. Thank you for your patience!
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a 
-              href="mailto:contact@inventive-es.com" 
-              className="px-8 py-4 bg-slate-900 text-white font-medium rounded-full hover:bg-slate-800 transition-colors shadow-lg hover:shadow-xl focus:ring-4 focus:ring-slate-300 w-full sm:w-auto"
-            >
-              Contact Us
-            </a>
+          <ProductList />
+        </LayoutWrapper>
+      </section>
+
+      <section className="py-16">
+        <LayoutWrapper>
+          <h2 className="text-3xl font-bold text-slate-900">Why Choose Us</h2>
+          <p className="mt-3 max-w-3xl text-slate-600">Utility-facing approvals, quality assurance, and robust manufacturing processes support every delivery.</p>
+          <div className="mt-8 grid gap-5 md:grid-cols-3">
+            {["Since 1993 engineering heritage", "Quality and FAT documentation", "Nationwide support in major cities"].map((item) => (
+              <div key={item} className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                <p className="font-semibold text-slate-900">{item}</p>
+              </div>
+            ))}
           </div>
-        </div>
-      </div>
-      
-      {/* Footer */}
-      <footer className="w-full py-6 text-center z-10 bg-white/20 backdrop-blur-sm border-t border-white/20">
-        <p className="text-slate-500 font-medium text-sm">
-          &copy; {new Date().getFullYear()} Inventive Engineering Solution. All rights reserved.
-        </p>
-      </footer>
-    </main>
+          <div className="mt-10">
+            <CertificationsGrid />
+          </div>
+        </LayoutWrapper>
+      </section>
+
+      <section className="bg-white py-16">
+        <LayoutWrapper>
+          <h2 className="text-3xl font-bold text-slate-900">Recent Projects</h2>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {projects.map((project) => (
+              <article key={project.slug} className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-lg font-semibold text-slate-900">{project.title}</h3>
+                <p className="mt-1 text-sm text-slate-500">{project.location} • {project.year}</p>
+                <p className="mt-3 text-sm text-slate-600">{project.summary}</p>
+              </article>
+            ))}
+          </div>
+        </LayoutWrapper>
+      </section>
+
+      <section className="py-16">
+        <LayoutWrapper>
+          <h2 className="text-3xl font-bold text-slate-900">Trusted by Industrial Clients</h2>
+          <p className="mt-3 text-slate-600">Long-term delivery partnerships across utilities and private industry.</p>
+          <div className="mt-8">
+            <ClientsCarousel />
+          </div>
+        </LayoutWrapper>
+      </section>
+
+      <section className="bg-white py-16">
+        <LayoutWrapper>
+          <h2 className="text-3xl font-bold text-slate-900">Our Locations</h2>
+          <p className="mt-3 text-slate-600">Regional presence for responsive technical and after-sales support.</p>
+          <div className="mt-8">
+            <Locations />
+          </div>
+        </LayoutWrapper>
+      </section>
+
+      <section className="py-16">
+        <LayoutWrapper>
+          <div className="rounded-2xl bg-slate-900 p-8 text-white sm:p-12">
+            <h2 className="text-3xl font-bold">Request a quotation, technical datasheet, or factory visit.</h2>
+            <p className="mt-3 text-slate-200">Our engineering team is ready to support your project requirements.</p>
+            <Link href="/contact" className="mt-6 inline-flex rounded-md bg-amber-500 px-5 py-3 font-semibold text-slate-950 hover:bg-amber-400">
+              Get a Quote
+            </Link>
+          </div>
+        </LayoutWrapper>
+      </section>
+    </>
   );
 }
