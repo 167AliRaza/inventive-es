@@ -17,8 +17,13 @@ export default function Navbar() {
         <nav className="flex h-16 items-center justify-between gap-3 md:h-20" aria-label="Main navigation">
           <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3" onClick={() => setIsOpen(false)}>
             <Image src="/logo.png" alt={`${siteConfig.name} logo`} width={44} height={44} className="h-9 w-9 md:h-11 md:w-11" priority />
-            <span className="truncate text-xs font-semibold leading-tight text-[#002050] sm:text-sm md:text-base">
-              {siteConfig.name}
+            <span
+              className="inline-flex min-w-0 items-center gap-1 truncate whitespace-nowrap text-[11px] font-black uppercase leading-none tracking-[-0.02em] sm:text-sm md:text-base"
+              aria-label={siteConfig.name}
+            >
+              <span className="text-[#0A2240]">Inventive</span>
+              <span className="text-[#F37A20]">Engineering</span>
+              <span className="text-[#0A2240]">Solution</span>
             </span>
           </Link>
 
